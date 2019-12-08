@@ -45,6 +45,7 @@ class GlewConan(ConanFile):
         release_name = "%s-%s" % (self.name, self.version)
         tools.get("{0}/releases/download/{1}/{1}.tgz".format(self.homepage, release_name), sha256="04de91e7e6763039bc11940095cd9c7f880baba82196a7765f727ac05a993c95")
         os.rename(release_name, self._source_subfolder)
+        tools.replace_in_file("%s/build/cmake/CMakeLists.txt" % self._source_subfolder, "target_link_libraries (glew LINK_PRIVATE -nodefaultlib -noentry)", "# target_link_libraries (glew LINK_PRIVATE -nodefaultlib -noentry)")
 
     def _configure_cmake(self):
         cmake = CMake(self)
